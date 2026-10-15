@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Kompetisi Kuis - Fase 3</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Kompetisi Kuis - Fase 3</h1>
+            <p>4 Tim | 16 Soal | 4 Kategori Poin</p>
+        </header>
+
+        <!-- Setup Screen -->
+        <div id="setup-screen" class="screen">
+            <h2>Setup Kompetisi</h2>
+            <div class="setup-section">
+                <h3>Input Nama Tim dan Poin Awal (4 Tim)</h3>
+                <div class="team-inputs">
+                    <div class="team-input-row">
+                        <input type="text" id="team1" placeholder="Nama Tim 1">
+                        <input type="number" id="team1-points" placeholder="Poin" value="0">
+                    </div>
+                    <div class="team-input-row">
+                        <input type="text" id="team2" placeholder="Nama Tim 2">
+                        <input type="number" id="team2-points" placeholder="Poin" value="0">
+                    </div>
+                    <div class="team-input-row">
+                        <input type="text" id="team3" placeholder="Nama Tim 3">
+                        <input type="number" id="team3-points" placeholder="Poin" value="0">
+                    </div>
+                    <div class="team-input-row">
+                        <input type="text" id="team4" placeholder="Nama Tim 4">
+                        <input type="number" id="team4-points" placeholder="Poin" value="0">
+                    </div>
+                </div>
+                <p class="hint">Masukkan nama tim dan poin awal dari Fase 2</p>
+            </div>
+            <button id="start-btn" class="btn primary">Mulai Kompetisi</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen hidden">
+            <div class="game-header">
+                <div class="round-info">
+                    <h3>Ronde: <span id="round-number">1</span>/16</h3>
+                    <p>Soal tersisa: <span id="questions-remaining">16</span></p>
+                </div>
+            </div>
+
+            <div class="teams-scoreboard">
+                <div class="team-card" id="team-card-0">
+                    <h4 id="team-name-0">-</h4>
+                    <p class="score">Poin: <span id="team-score-0">0</span></p>
+                    <p class="questions-answered">Soal terjawab: <span id="team-answered-0">0</span>/4</p>
+                </div>
+                <div class="team-card" id="team-card-1">
+                    <h4 id="team-name-1">-</h4>
+                    <p class="score">Poin: <span id="team-score-1">0</span></p>
+                    <p class="questions-answered">Soal terjawab: <span id="team-answered-1">0</span>/4</p>
+                </div>
+                <div class="team-card" id="team-card-2">
+                    <h4 id="team-name-2">-</h4>
+                    <p class="score">Poin: <span id="team-score-2">0</span></p>
+                    <p class="questions-answered">Soal terjawab: <span id="team-answered-2">0</span>/4</p>
+                </div>
+                <div class="team-card" id="team-card-3">
+                    <h4 id="team-name-3">-</h4>
+                    <p class="score">Poin: <span id="team-score-3">0</span></p>
+                    <p class="questions-answered">Soal terjawab: <span id="team-answered-3">0</span>/4</p>
+                </div>
+            </div>
+
+            <div class="question-grid">
+                <div class="category-row">
+                    <h3>Category A</h3>
+                    <div class="question-buttons" id="row-1-buttons"></div>
+                </div>
+                <div class="category-row">
+                    <h3>Category B</h3>
+                    <div class="question-buttons" id="row-2-buttons"></div>
+                </div>
+                <div class="category-row">
+                    <h3>Category C</h3>
+                    <div class="question-buttons" id="row-3-buttons"></div>
+                </div>
+                <div class="category-row">
+                    <h3>Category D</h3>
+                    <div class="question-buttons" id="row-4-buttons"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Selection Modal -->
+        <div id="team-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Pilih Tim</h3>
+                    <button class="close-btn" id="close-team-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p class="instruction">Pilih tim yang akan menjawab soal:</p>
+                    <div class="team-selection" id="team-selection"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Modal -->
+        <div id="question-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Soal <span id="modal-points">-</span> Poin</h3>
+                    <button class="close-btn" id="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-question" class="question-text"></p>
+                    <div class="answer-options" id="answer-options"></div>
+                    <p id="answer-feedback" class="answer-feedback hidden" aria-live="polite"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen hidden">
+            <h2>Hasil Akhir</h2>
+            <div class="final-rankings">
+                <div class="rank-card" id="rank-1">
+                    <div class="rank-badge">🥇 Juara 1</div>
+                    <h3 id="rank1-name">-</h3>
+                    <p class="final-score">Poin: <span id="rank1-score">0</span></p>
+                </div>
+                <div class="rank-card" id="rank-2">
+                    <div class="rank-badge">🥈 Juara 2</div>
+                    <h3 id="rank2-name">-</h3>
+                    <p class="final-score">Poin: <span id="rank2-score">0</span></p>
+                </div>
+                <div class="rank-card" id="rank-3">
+                    <div class="rank-badge">🥉 Juara 3</div>
+                    <h3 id="rank3-name">-</h3>
+                    <p class="final-score">Poin: <span id="rank3-score">0</span></p>
+                </div>
+                <div class="rank-card" id="rank-4">
+                    <div class="rank-badge">4 Peringkat 4</div>
+                    <h3 id="rank4-name">-</h3>
+                    <p class="final-score">Poin: <span id="rank4-score">0</span></p>
+                </div>
+            </div>
+            <div id="tie-breaker-section" class="hidden">
+                <h3>Tie-Breaker Diperlukan!</h3>
+                <p id="tie-message"></p>
+                <div class="buzzer-section">
+                    <button id="buzzer-1" class="buzzer-btn" data-team="0">Tim 1 Buzzer</button>
+                    <button id="buzzer-2" class="buzzer-btn" data-team="1">Tim 2 Buzzer</button>
+                    <button id="buzzer-3" class="buzzer-btn" data-team="2">Tim 3 Buzzer</button>
+                    <button id="buzzer-4" class="buzzer-btn" data-team="3">Tim 4 Buzzer</button>
+                </div>
+                <p id="buzzer-result" class="buzzer-result"></p>
+            </div>
+            <button id="restart-btn" class="btn primary">Mulai Kompetisi Baru</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
