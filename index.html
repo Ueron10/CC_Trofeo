@@ -3,18 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Kompetisi Kuis - Fase 3</title>
+    <title>Cerdas Cermat</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="header-hidden">
     <div class="container">
         <header>
-            <h1>Kompetisi Kuis - Fase 3</h1>
-            <p>4 Tim | 16 Soal | 4 Kategori Poin</p>
+            <div class="brand-lockup">
+                <img class="brand-logo" src="Logo-cropped.png" alt="Logo Trofeo 2026">
+                <div class="brand-copy">
+                    <h1>Cerdas Cermat</h1>
+                    <p>4 Tim | 16 Soal | Sistem Lelang</p>
+                </div>
+            </div>
         </header>
 
+        <div id="home-screen" class="screen">
+            <div class="home-hero">
+                <div class="home-hero-copy">
+                    <p class="home-kicker"><span></span> CERDAS • CEPAT • TEPAT</p>
+                    <h2>Pilih Mode</h2>
+                    <p class="home-description">Siapkan tim dan mulai adu wawasan. Pilih cara bermain yang paling cocok untuk acara Anda.</p>
+                </div>
+                <div class="home-mascot" aria-hidden="true">
+                    <span class="home-mascot-spark home-mascot-spark-one">✦</span>
+                    <span class="home-mascot-spark home-mascot-spark-two">✦</span>
+                    <img src="maskot.png" alt="">
+                    <span class="home-mascot-note">Siap adu cepat?</span>
+                </div>
+            </div>
+            <div class="mode-options">
+                <button id="points-mode-btn" class="mode-option">
+                    <span class="mode-option-icon" aria-hidden="true">±</span>
+                    <span class="mode-option-title">Papan Poin</span>
+                    <span class="mode-option-description">Catat poin untuk 4 tim secara langsung.</span>
+                    <span class="mode-option-arrow" aria-hidden="true">↗</span>
+                </button>
+                <button id="competition-mode-btn" class="mode-option">
+                    <span class="mode-option-icon" aria-hidden="true">★</span>
+                    <span class="mode-option-title">Cerdas Cermat</span>
+                    <span class="mode-option-description">Mulai kompetisi kuis seperti biasa.</span>
+                    <span class="mode-option-arrow" aria-hidden="true">↗</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="points-setup-screen" class="screen hidden">
+            <h2>Atur Papan Poin</h2>
+            <div class="setup-section">
+                <h3>Nama Tim dan Poin Awal</h3>
+                <label class="points-team-count-label" for="points-team-count">Jumlah tim (maksimal 5):</label>
+                <select id="points-team-count" class="points-team-count">
+                    <option value="1">1 Tim</option>
+                    <option value="2">2 Tim</option>
+                    <option value="3">3 Tim</option>
+                    <option value="4" selected>4 Tim</option>
+                    <option value="5">5 Tim</option>
+                </select>
+                <div class="team-inputs">
+                    <div class="team-input-row" data-points-team-row="1">
+                        <input type="text" id="points-team1" placeholder="Nama Tim 1" aria-label="Nama Tim 1">
+                        <input type="number" id="points-team1-score" placeholder="Poin awal" value="0" aria-label="Poin awal Tim 1">
+                    </div>
+                    <div class="team-input-row" data-points-team-row="2">
+                        <input type="text" id="points-team2" placeholder="Nama Tim 2" aria-label="Nama Tim 2">
+                        <input type="number" id="points-team2-score" placeholder="Poin awal" value="0" aria-label="Poin awal Tim 2">
+                    </div>
+                    <div class="team-input-row" data-points-team-row="3">
+                        <input type="text" id="points-team3" placeholder="Nama Tim 3" aria-label="Nama Tim 3">
+                        <input type="number" id="points-team3-score" placeholder="Poin awal" value="0" aria-label="Poin awal Tim 3">
+                    </div>
+                    <div class="team-input-row" data-points-team-row="4">
+                        <input type="text" id="points-team4" placeholder="Nama Tim 4" aria-label="Nama Tim 4">
+                        <input type="number" id="points-team4-score" placeholder="Poin awal" value="0" aria-label="Poin awal Tim 4">
+                    </div>
+                    <div class="team-input-row" data-points-team-row="5">
+                        <input type="text" id="points-team5" placeholder="Nama Tim 5" aria-label="Nama Tim 5">
+                        <input type="number" id="points-team5-score" placeholder="Poin awal" value="0" aria-label="Poin awal Tim 5">
+                    </div>
+                </div>
+            </div>
+            <div class="screen-actions">
+                <button id="points-setup-back-btn" class="btn secondary">Kembali</button>
+                <button id="points-start-btn" class="btn primary">Mulai</button>
+            </div>
+        </div>
+
+        <div id="points-screen" class="screen hidden">
+            <h2>Papan Poin</h2>
+            <div id="points-scoreboard" class="teams-scoreboard points-scoreboard"></div>
+            <button id="points-home-btn" class="btn secondary">Kembali ke Home</button>
+        </div>
+
         <!-- Setup Screen -->
-        <div id="setup-screen" class="screen">
+        <div id="setup-screen" class="screen hidden">
             <h2>Setup Kompetisi</h2>
             <div class="setup-section">
                 <h3>Input Nama Tim dan Poin Awal (4 Tim)</h3>
@@ -36,58 +118,83 @@
                         <input type="number" id="team4-points" placeholder="Poin" value="0">
                     </div>
                 </div>
-                <p class="hint">Masukkan nama tim dan poin awal dari Fase 2</p>
             </div>
+            <button id="competition-home-btn" class="btn secondary">Kembali ke Home</button>
             <button id="start-btn" class="btn primary">Mulai Kompetisi</button>
         </div>
 
         <!-- Game Screen -->
         <div id="game-screen" class="screen hidden">
             <div class="game-header">
-                <div class="round-info">
-                    <h3>Ronde: <span id="round-number">1</span>/16</h3>
-                    <p>Soal tersisa: <span id="questions-remaining">16</span></p>
+                <div class="game-header-copy">
+                    <p class="game-eyebrow"><span class="live-dot"></span> PANGGUNG CERDAS CERMAT</p>
+                    <div class="round-info">
+                        <h3>Ronde <span id="round-number">1</span><span class="round-total">/16</span></h3>
+                        <p><span id="questions-remaining">16</span> soal menanti untuk diperebutkan</p>
+                    </div>
+                    <div class="round-progress">
+                        <div class="round-progress-meta">
+                            <span>PROGRES KOMPETISI</span>
+                            <span><span id="questions-completed">0</span> / 16 selesai</span>
+                        </div>
+                        <div class="round-progress-track" role="progressbar" aria-label="Progres kompetisi" aria-valuemin="0" aria-valuemax="16" aria-valuenow="0">
+                            <span id="round-progress-fill"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mascot-stage">
+                    <img class="quiz-mascot" src="maskot.png" alt="Maskot Cerdas Cermat Trofeo">
                 </div>
             </div>
 
+            <div class="section-heading">
+                <div>
+                    <p class="section-kicker">KLASEMEN SEMENTARA</p>
+                    <h2>Perolehan Poin</h2>
+                </div>
+                <span class="competition-live"><span></span> LIVE</span>
+            </div>
             <div class="teams-scoreboard">
                 <div class="team-card" id="team-card-0">
                     <h4 id="team-name-0">-</h4>
                     <p class="score">Poin: <span id="team-score-0">0</span></p>
-                    <p class="questions-answered">Soal terjawab: <span id="team-answered-0">0</span>/4</p>
                 </div>
                 <div class="team-card" id="team-card-1">
                     <h4 id="team-name-1">-</h4>
                     <p class="score">Poin: <span id="team-score-1">0</span></p>
-                    <p class="questions-answered">Soal terjawab: <span id="team-answered-1">0</span>/4</p>
                 </div>
                 <div class="team-card" id="team-card-2">
                     <h4 id="team-name-2">-</h4>
                     <p class="score">Poin: <span id="team-score-2">0</span></p>
-                    <p class="questions-answered">Soal terjawab: <span id="team-answered-2">0</span>/4</p>
                 </div>
                 <div class="team-card" id="team-card-3">
                     <h4 id="team-name-3">-</h4>
                     <p class="score">Poin: <span id="team-score-3">0</span></p>
-                    <p class="questions-answered">Soal terjawab: <span id="team-answered-3">0</span>/4</p>
                 </div>
             </div>
 
+            <div class="section-heading question-section-heading">
+                <div>
+                    <p class="section-kicker">BABAK REBUTAN</p>
+                    <h2>Pilih Nomor Soal</h2>
+                </div>
+                <span class="question-count-badge">16 SOAL</span>
+            </div>
             <div class="question-grid">
                 <div class="category-row">
-                    <h3>Category A</h3>
+                    <h3>Kategori A</h3>
                     <div class="question-buttons" id="row-1-buttons"></div>
                 </div>
                 <div class="category-row">
-                    <h3>Category B</h3>
+                    <h3>Kategori B</h3>
                     <div class="question-buttons" id="row-2-buttons"></div>
                 </div>
                 <div class="category-row">
-                    <h3>Category C</h3>
+                    <h3>Kategori C</h3>
                     <div class="question-buttons" id="row-3-buttons"></div>
                 </div>
                 <div class="category-row">
-                    <h3>Category D</h3>
+                    <h3>Kategori D</h3>
                     <div class="question-buttons" id="row-4-buttons"></div>
                 </div>
             </div>
@@ -95,7 +202,7 @@
 
         <!-- Team Selection Modal -->
         <div id="team-modal" class="modal hidden">
-            <div class="modal-content">
+            <div class="modal-content board-anchored-modal-content">
                 <div class="modal-header">
                     <h3>Pilih Tim</h3>
                     <button class="close-btn" id="close-team-modal">&times;</button>
@@ -107,17 +214,36 @@
             </div>
         </div>
 
+        <div id="minimum-bid-modal" class="modal hidden">
+            <div class="modal-content minimum-bid-content board-anchored-modal-content">
+                <div class="modal-body minimum-bid-body">
+                    <p class="minimum-bid-label">Minimal Taruhan</p>
+                    <p class="minimum-bid-value"><span id="minimum-bid-value">0</span> <span>POIN</span></p>
+                    <button id="minimum-bid-continue-btn" class="btn primary" type="button">Lanjut Pilih Tim</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Question Modal -->
         <div id="question-modal" class="modal hidden">
-            <div class="modal-content">
+            <div class="modal-content board-anchored-modal-content">
                 <div class="modal-header">
-                    <h3>Soal <span id="modal-points">-</span> Poin</h3>
+                    <h3>Lelang Soal <span id="modal-question-number">-</span></h3>
                     <button class="close-btn" id="close-modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p id="modal-question" class="question-text"></p>
-                    <div class="answer-options" id="answer-options"></div>
-                    <p id="answer-feedback" class="answer-feedback hidden" aria-live="polite"></p>
+                    <div id="auction-stage" class="auction-stage">
+                        <p id="auction-team-info" class="instruction"></p>
+                        <label for="bid-amount">Poin yang dilelang (minimal <span id="bid-minimum">0</span>, maksimal <span id="bid-maximum">0</span>):</label>
+                        <input id="bid-amount" type="number" min="1" step="1" inputmode="numeric">
+                        <button id="confirm-bid-btn" class="btn primary" type="button">Konfirmasi Lelang</button>
+                        <p id="bid-error" class="bid-error hidden" role="alert"></p>
+                    </div>
+                    <div id="question-stage" class="hidden">
+                        <p id="modal-question" class="question-text"></p>
+                        <div class="answer-options" id="answer-options"></div>
+                        <p id="answer-feedback" class="answer-feedback hidden" aria-live="polite"></p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,137 +1,240 @@
 // Game State
 let teams = [];
+let pointsTeams = [];
 let questions = {
     1: [
         {
             question: "Apa ibukota Indonesia?",
             options: ["Surabaya", "Jakarta", "Bandung", "Medan"],
-            correct: 1,
-            points: 100
+            correct: 1
         },
         {
             question: "Apa nama hewan terbesar di dunia?",
             options: ["Gajah", "Paus Biru", "Hiu Paus", "Beruang Kutub"],
-            correct: 1,
-            points: 200
+            correct: 1
         },
         {
             question: "Apa nama gunung tertinggi di dunia?",
             options: ["K2", "Kangchenjunga", "Everest", "Lhotse"],
-            correct: 2,
-            points: 300
+            correct: 2
         },
         {
             question: "Apa nama teori besar tentang asal usul alam semesta?",
             options: ["Teori Relativitas", "Teori Kuantum", "Teori Big Bang", "Teori Evolusi"],
-            correct: 2,
-            points: 400
+            correct: 2
         }
     ],
     2: [
         {
             question: "Berapa jumlah provinsi di Indonesia?",
             options: ["34", "35", "36", "38"],
-            correct: 3,
-            points: 100
+            correct: 3
         },
         {
             question: "Berapa jumlah planet di tata surya kita?",
             options: ["7", "8", "9", "10"],
-            correct: 1,
-            points: 200
+            correct: 1
         },
         {
             question: "Berapa jumlah tulang pada tubuh manusia dewasa?",
             options: ["200", "206", "210", "215"],
-            correct: 1,
-            points: 300
+            correct: 1
         },
         {
             question: "Berapa kecepatan cahaya dalam km per detik?",
             options: ["300.000", "299.792", "298.000", "301.000"],
-            correct: 1,
-            points: 400
+            correct: 1
         }
     ],
     3: [
         {
             question: "Siapa presiden pertama Indonesia?",
             options: ["Soeharto", "Habibie", "Soekarno", "Megawati"],
-            correct: 2,
-            points: 100
+            correct: 2
         },
         {
             question: "Apa nama sungai terpanjang di dunia?",
             options: ["Amazon", "Nil", "Yangtze", "Mississippi"],
-            correct: 1,
-            points: 200
+            correct: 1
         },
         {
             question: "Apa nama samudra terbesar di dunia?",
             options: ["Samudra Atlantik", "Samudra Hindia", "Samudra Pasifik", "Samudra Arktik"],
-            correct: 2,
-            points: 300
+            correct: 2
         },
         {
             question: "Apa nama partikel subatomik yang memiliki muatan negatif?",
             options: ["Proton", "Neutron", "Elektron", "Foton"],
-            correct: 2,
-            points: 400
+            correct: 2
         }
     ],
     4: [
         {
             question: "Kapan Indonesia merdeka?",
             options: ["17 Agustus 1945", "28 Oktober 1928", "10 November 1945", "1 Juni 1945"],
-            correct: 0,
-            points: 100
+            correct: 0
         },
         {
             question: "Siapa penemu bola lampu?",
             options: ["Nikola Tesla", "Alexander Graham Bell", "Thomas Edison", "Albert Einstein"],
-            correct: 2,
-            points: 200
+            correct: 2
         },
         {
             question: "Siapa penulis novel 'Laskar Pelangi'?",
             options: ["Pramoedya Ananta Toer", "Andrea Hirata", "Ayu Utami", "Eka Kurniawan"],
-            correct: 1,
-            points: 300
+            correct: 1
         },
         {
             question: "Siapa ilmuwan yang merumuskan teori relativitas?",
             options: ["Isaac Newton", "Galileo Galilei", "Albert Einstein", "Stephen Hawking"],
-            correct: 2,
-            points: 400
+            correct: 2
         }
     ]
 };
 let currentRound = 0;
 let currentTeamIndex = null;
 let selectedQuestion = null;
+let questionLocked = false;
 let buzzerPressed = false;
 
 // DOM Elements
 const setupScreen = document.getElementById('setup-screen');
+const homeScreen = document.getElementById('home-screen');
+const pointsSetupScreen = document.getElementById('points-setup-screen');
+const pointsScreen = document.getElementById('points-screen');
 const gameScreen = document.getElementById('game-screen');
 const resultsScreen = document.getElementById('results-screen');
 const questionModal = document.getElementById('question-modal');
 const teamModal = document.getElementById('team-modal');
+const minimumBidModal = document.getElementById('minimum-bid-modal');
 const startBtn = document.getElementById('start-btn');
 const restartBtn = document.getElementById('restart-btn');
 const closeModalBtn = document.getElementById('close-modal');
 const closeTeamModalBtn = document.getElementById('close-team-modal');
+const bidAmountInput = document.getElementById('bid-amount');
 
 // Initialize
+document.getElementById('points-mode-btn').addEventListener('click', () => {
+    homeScreen.classList.add('hidden');
+    pointsSetupScreen.classList.remove('hidden');
+    document.body.classList.add('header-hidden');
+});
+document.getElementById('competition-mode-btn').addEventListener('click', () => {
+    homeScreen.classList.add('hidden');
+    setupScreen.classList.remove('hidden');
+    document.body.classList.remove('header-hidden');
+});
+document.getElementById('points-setup-back-btn').addEventListener('click', () => {
+    pointsSetupScreen.classList.add('hidden');
+    homeScreen.classList.remove('hidden');
+    document.body.classList.add('header-hidden');
+});
+document.getElementById('competition-home-btn').addEventListener('click', () => {
+    setupScreen.classList.add('hidden');
+    homeScreen.classList.remove('hidden');
+    document.body.classList.add('header-hidden');
+});
+document.getElementById('points-start-btn').addEventListener('click', startPointsBoard);
+const pointsTeamCountInput = document.getElementById('points-team-count');
+pointsTeamCountInput.addEventListener('change', updatePointsTeamInputs);
+updatePointsTeamInputs();
+document.getElementById('points-home-btn').addEventListener('click', () => {
+    pointsScreen.classList.add('hidden');
+    homeScreen.classList.remove('hidden');
+    document.body.classList.add('header-hidden');
+});
+document.getElementById('points-scoreboard').addEventListener('click', handlePointsChange);
 startBtn.addEventListener('click', startGame);
 restartBtn.addEventListener('click', resetGame);
 closeModalBtn.addEventListener('click', closeModal);
 closeTeamModalBtn.addEventListener('click', closeTeamModal);
+document.getElementById('confirm-bid-btn').addEventListener('click', confirmBid);
+document.getElementById('minimum-bid-continue-btn').addEventListener('click', () => {
+    minimumBidModal.classList.add('hidden');
+    showTeamSelection();
+});
+window.addEventListener('resize', positionActiveGameModal);
 
 // Setup buzzer buttons
 document.querySelectorAll('.buzzer-btn').forEach(btn => {
     btn.addEventListener('click', handleBuzzer);
 });
+
+function startPointsBoard() {
+    pointsTeams = [];
+    const teamCount = Number(pointsTeamCountInput.value);
+    for (let i = 1; i <= teamCount; i++) {
+        const name = document.getElementById(`points-team${i}`).value.trim();
+        const scoreInput = document.getElementById(`points-team${i}-score`);
+        const score = Number(scoreInput.value);
+        pointsTeams.push({
+            name: name || `Tim ${i}`,
+            score: Number.isFinite(score) ? score : 0
+        });
+    }
+
+    renderPointsBoard();
+    pointsSetupScreen.classList.add('hidden');
+    pointsScreen.classList.remove('hidden');
+    document.body.classList.add('header-hidden');
+}
+
+function updatePointsTeamInputs() {
+    const teamCount = Number(pointsTeamCountInput.value);
+    document.querySelectorAll('[data-points-team-row]').forEach(row => {
+        row.classList.toggle('hidden', Number(row.dataset.pointsTeamRow) > teamCount);
+    });
+}
+
+function renderPointsBoard() {
+    const scoreboard = document.getElementById('points-scoreboard');
+    scoreboard.innerHTML = '';
+
+    pointsTeams.forEach((team, index) => {
+        const card = document.createElement('div');
+        card.className = 'team-card points-team-card';
+
+        const name = document.createElement('h3');
+        name.textContent = team.name;
+
+        const score = document.createElement('p');
+        score.className = 'score';
+        score.textContent = `Poin: ${team.score}`;
+        score.setAttribute('aria-live', 'polite');
+
+        const controls = document.createElement('div');
+        controls.className = 'points-controls';
+        [
+            { label: '−10', amount: -10, description: `Kurangi 10 poin ${team.name}` },
+            { label: '+10', amount: 10, description: `Tambah 10 poin ${team.name}` }
+        ].forEach(control => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = `points-control-btn ${control.amount > 0 ? 'add' : 'subtract'}`;
+            button.dataset.teamIndex = index;
+            button.dataset.amount = control.amount;
+            button.textContent = control.label;
+            button.setAttribute('aria-label', control.description);
+            controls.appendChild(button);
+        });
+
+        card.append(name, score, controls);
+        scoreboard.appendChild(card);
+    });
+}
+
+function handlePointsChange(event) {
+    const button = event.target.closest('.points-control-btn');
+    if (!button) return;
+
+    const teamIndex = Number(button.dataset.teamIndex);
+    const amount = Number(button.dataset.amount);
+    const team = pointsTeams[teamIndex];
+    if (!team || !Number.isFinite(amount)) return;
+
+    team.score += amount;
+    renderPointsBoard();
+}
 
 function startGame() {
     // Get team names and initial points
@@ -149,6 +252,12 @@ function startGame() {
     // Initialize game state
     currentRound = 0;
     currentTeamIndex = null;
+    questionLocked = false;
+    Object.values(questions).forEach(categoryQuestions => {
+        categoryQuestions.forEach(question => {
+            question.minimumBid = (Math.floor(Math.random() * 5) + 1) * 10;
+        });
+    });
 
     // Update UI
     updateTeamDisplay();
@@ -164,7 +273,6 @@ function updateTeamDisplay() {
     teams.forEach((team, index) => {
         document.getElementById(`team-name-${index}`).textContent = team.name;
         document.getElementById(`team-score-${index}`).textContent = team.score;
-        document.getElementById(`team-answered-${index}`).textContent = team.questionsAnswered;
     });
 
     // Highlight current team
@@ -186,8 +294,8 @@ function createQuestionButtons() {
             btn.className = 'question-btn';
             btn.dataset.row = row;
             btn.dataset.index = index;
-            btn.dataset.points = question.points;
-            btn.textContent = `${question.points} Poin`;
+            btn.dataset.questionNumber = (row - 1) * questions[row].length + index + 1;
+            btn.textContent = btn.dataset.questionNumber;
             btn.addEventListener('click', () => selectQuestion(row, index));
             container.appendChild(btn);
         });
@@ -197,8 +305,12 @@ function createQuestionButtons() {
 function updateRoundInfo() {
     const totalQuestions = 16;
     const answeredQuestions = teams.reduce((sum, team) => sum + team.questionsAnswered, 0);
+    const progressTrack = document.querySelector('.round-progress-track');
     document.getElementById('round-number').textContent = answeredQuestions + 1;
     document.getElementById('questions-remaining').textContent = totalQuestions - answeredQuestions;
+    document.getElementById('questions-completed').textContent = answeredQuestions;
+    document.getElementById('round-progress-fill').style.width = `${(answeredQuestions / totalQuestions) * 100}%`;
+    progressTrack.setAttribute('aria-valuenow', answeredQuestions);
 }
 
 function selectQuestion(row, index) {
@@ -209,17 +321,67 @@ function selectQuestion(row, index) {
         return;
     }
 
+    const question = questions[row][index];
+    const eligibleTeams = teams.filter(team => team.questionsAnswered < 4);
+    if (eligibleTeams.length === 0) {
+        alert('Semua tim sudah menjawab 4 soal!');
+        return;
+    }
+
     // Store selected question
     selectedQuestion = {
         row: row,
         index: index,
-        points: questions[row][index].points,
-        text: questions[row][index].question,
-        data: questions[row][index]
+        number: (row - 1) * questions[row].length + index + 1,
+        minimumBid: question.minimumBid,
+        text: question.question,
+        data: question
     };
 
-    // Show team selection modal
-    showTeamSelection();
+    questionLocked = true;
+    closeTeamModalBtn.classList.add('hidden');
+    closeModalBtn.classList.add('hidden');
+    document.getElementById('minimum-bid-value').textContent = selectedQuestion.minimumBid;
+    document.querySelector('#game-screen .section-heading:not(.question-section-heading)')
+        .scrollIntoView({ block: 'center' });
+    minimumBidModal.classList.remove('hidden');
+    positionActiveGameModal();
+}
+
+function positionGameModal(modal) {
+    const standingsHeading = document.querySelector('#game-screen .section-heading:not(.question-section-heading)');
+    const questionHeading = document.querySelector('#game-screen .question-section-heading');
+    const popup = modal.querySelector('.board-anchored-modal-content');
+    const container = document.querySelector('.container');
+    if (!standingsHeading || !questionHeading || !popup || !container) return;
+
+    const standingsRect = standingsHeading.getBoundingClientRect();
+    const questionRect = questionHeading.getBoundingClientRect();
+    const popupRect = popup.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+    const margin = 16;
+    const centerX = standingsRect.left + standingsRect.width / 2;
+    const centerY = (
+        standingsRect.top + standingsRect.height / 2 +
+        questionRect.top + questionRect.height / 2
+    ) / 2;
+    const minX = Math.max(margin, containerRect.left + margin) + popupRect.width / 2;
+    const maxX = Math.min(window.innerWidth - margin, containerRect.right - margin) - popupRect.width / 2;
+    const minY = Math.max(margin, containerRect.top + margin) + popupRect.height / 2;
+    const maxY = Math.min(window.innerHeight - margin, containerRect.bottom - margin) - popupRect.height / 2;
+    const x = Math.max(minX, Math.min(centerX, maxX));
+    const y = Math.max(minY, Math.min(centerY, maxY));
+
+    modal.style.setProperty('--game-modal-x', `${x - containerRect.left}px`);
+    modal.style.setProperty('--game-modal-y', `${y - containerRect.top}px`);
+}
+
+function positionActiveGameModal() {
+    [minimumBidModal, teamModal, questionModal].forEach(modal => {
+        if (!modal.classList.contains('hidden')) {
+            positionGameModal(modal);
+        }
+    });
 }
 
 function showTeamSelection() {
@@ -239,26 +401,59 @@ function showTeamSelection() {
         teamSelection.appendChild(btn);
     });
 
-    // Check if all teams have answered 4 questions
     if (teamSelection.children.length === 0) {
-        alert('Semua tim sudah menjawab 4 soal!');
+        questionLocked = false;
+        selectedQuestion = null;
+        closeTeamModalBtn.classList.remove('hidden');
+        closeModalBtn.classList.remove('hidden');
         return;
     }
 
     teamModal.classList.remove('hidden');
+    positionActiveGameModal();
 }
 
 function selectTeam(index) {
     currentTeamIndex = index;
-    closeTeamModal();
+    closeTeamModal(true);
 
     const team = teams[currentTeamIndex];
 
-    // Show question modal with options
-    document.getElementById('modal-points').textContent = selectedQuestion.points;
+    document.getElementById('modal-question-number').textContent = selectedQuestion.number;
+    document.getElementById('auction-team-info').textContent =
+        `${team.name} memiliki ${team.score} poin.`;
+    document.getElementById('bid-minimum').textContent = selectedQuestion.minimumBid;
+    const maximumBid = Math.max(team.score, selectedQuestion.minimumBid);
+    document.getElementById('bid-maximum').textContent = maximumBid;
+    bidAmountInput.value = '';
+    bidAmountInput.min = selectedQuestion.minimumBid;
+    bidAmountInput.max = maximumBid;
+    document.getElementById('bid-error').textContent = '';
+    document.getElementById('bid-error').classList.add('hidden');
+    document.getElementById('auction-stage').classList.remove('hidden');
+    document.getElementById('question-stage').classList.add('hidden');
+    questionModal.classList.remove('hidden');
+    positionActiveGameModal();
+}
+
+function confirmBid() {
+    const team = teams[currentTeamIndex];
+    const bid = Number(bidAmountInput.value);
+    const bidError = document.getElementById('bid-error');
+
+    const maximumBid = team ? Math.max(team.score, selectedQuestion.minimumBid) : 0;
+    if (!team || !Number.isInteger(bid) || bid < selectedQuestion.minimumBid || bid > maximumBid) {
+        bidError.textContent =
+            `Masukkan lelang antara ${selectedQuestion.minimumBid} hingga ${maximumBid} poin.`;
+        bidError.classList.remove('hidden');
+        return;
+    }
+
+    selectedQuestion.bid = bid;
+    document.getElementById('auction-stage').classList.add('hidden');
+    document.getElementById('question-stage').classList.remove('hidden');
     document.getElementById('modal-question').textContent = selectedQuestion.text;
     createAnswerOptions();
-    questionModal.classList.remove('hidden');
 }
 
 function createAnswerOptions() {
@@ -301,8 +496,16 @@ function createAnswerOptions() {
 }
 
 function closeModal() {
+    if (questionLocked) return;
+    closeModalBtn.disabled = false;
     questionModal.classList.add('hidden');
     selectedQuestion = null;
+    currentTeamIndex = null;
+    document.getElementById('auction-stage').classList.remove('hidden');
+    document.getElementById('question-stage').classList.add('hidden');
+    bidAmountInput.value = '';
+    document.getElementById('bid-error').textContent = '';
+    document.getElementById('bid-error').classList.add('hidden');
     // Reset answer options
     const answerContainer = document.getElementById('answer-options');
     answerContainer.innerHTML = '';
@@ -316,25 +519,33 @@ function handleOptionAnswer(isCorrect) {
     buttons.forEach(btn => {
         btn.disabled = true;
     });
+    closeModalBtn.disabled = true;
+
+    const answerFeedback = document.getElementById('answer-feedback');
+    answerFeedback.textContent = isCorrect
+        ? 'Jawaban benar! +40 poin.'
+        : `Jawaban salah! -${selectedQuestion.bid} poin.`;
+    answerFeedback.classList.remove('hidden');
 
     // Delay before handling answer
     setTimeout(() => {
+        closeModalBtn.disabled = false;
         handleAnswer(isCorrect);
     }, 1500);
 }
 
-function closeTeamModal() {
+function closeTeamModal(force = false) {
+    if (questionLocked && !force) return;
     teamModal.classList.add('hidden');
 }
 
 function handleAnswer(isCorrect) {
     const team = teams[currentTeamIndex];
-    const points = selectedQuestion.points;
 
     if (isCorrect) {
-        team.score += points;
+        team.score += 40;
     } else {
-        team.score -= points;
+        team.score -= selectedQuestion.bid;
     }
 
     team.questionsAnswered++;
@@ -348,7 +559,10 @@ function handleAnswer(isCorrect) {
     updateRoundInfo();
 
     // Close modal
+    questionLocked = false;
     closeModal();
+    closeTeamModalBtn.classList.remove('hidden');
+    closeModalBtn.classList.remove('hidden');
 
     // Reset current team index
     currentTeamIndex = null;
@@ -465,10 +679,11 @@ function resetGame() {
     currentRound = 0;
     currentTeamIndex = null;
     selectedQuestion = null;
+    questionLocked = false;
     buzzerPressed = false;
 
     // Clear inputs
-    document.querySelectorAll('.team-inputs input').forEach(input => {
+    setupScreen.querySelectorAll('.team-inputs input').forEach(input => {
         input.value = '';
     });
 
@@ -478,4 +693,5 @@ function resetGame() {
     // Switch screens
     resultsScreen.classList.add('hidden');
     setupScreen.classList.remove('hidden');
+    document.body.classList.remove('header-hidden');
 }
