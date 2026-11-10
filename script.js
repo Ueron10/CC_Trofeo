@@ -4,90 +4,95 @@ let pointsTeams = [];
 let questions = {
     1: [
         {
-            question: "Apa ibukota Indonesia?",
-            options: ["Surabaya", "Jakarta", "Bandung", "Medan"],
-            correct: 1
-        },
-        {
-            question: "Apa nama hewan terbesar di dunia?",
-            options: ["Gajah", "Paus Biru", "Hiu Paus", "Beruang Kutub"],
-            correct: 1
-        },
-        {
-            question: "Apa nama gunung tertinggi di dunia?",
-            options: ["K2", "Kangchenjunga", "Everest", "Lhotse"],
-            correct: 2
-        },
-        {
-            question: "Apa nama teori besar tentang asal usul alam semesta?",
-            options: ["Teori Relativitas", "Teori Kuantum", "Teori Big Bang", "Teori Evolusi"],
-            correct: 2
-        }
-    ],
-    2: [
-        {
-            question: "Berapa jumlah provinsi di Indonesia?",
-            options: ["34", "35", "36", "38"],
-            correct: 3
-        },
-        {
-            question: "Berapa jumlah planet di tata surya kita?",
-            options: ["7", "8", "9", "10"],
-            correct: 1
-        },
-        {
-            question: "Berapa jumlah tulang pada tubuh manusia dewasa?",
-            options: ["200", "206", "210", "215"],
-            correct: 1
-        },
-        {
-            question: "Berapa kecepatan cahaya dalam km per detik?",
-            options: ["300.000", "299.792", "298.000", "301.000"],
-            correct: 1
-        }
-    ],
-    3: [
-        {
-            question: "Siapa presiden pertama Indonesia?",
-            options: ["Soeharto", "Habibie", "Soekarno", "Megawati"],
-            correct: 2
-        },
-        {
-            question: "Apa nama sungai terpanjang di dunia?",
-            options: ["Amazon", "Nil", "Yangtze", "Mississippi"],
-            correct: 1
-        },
-        {
             question: "Apa nama samudra terbesar di dunia?",
             options: ["Samudra Atlantik", "Samudra Hindia", "Samudra Pasifik", "Samudra Arktik"],
             correct: 2
         },
         {
-            question: "Apa nama partikel subatomik yang memiliki muatan negatif?",
-            options: ["Proton", "Neutron", "Elektron", "Foton"],
+            question: "Apa nama garis khayal yang membagi bumi menjadi belahan utara dan selatan?",
+            options: ["Garis Balik Utara", "Garis Khatulistiwa", "Garis Meridian", "Garis Tanggal Internasional"],
+            correct: 1
+        },
+        {
+            question: "Siapa nama panglima perang Kerajaan Majapahit yang terkenal dengan Sumpah Palapa?",
+            options: ["Gajah Mada", "Hayam Wuruk", "Raden Wijaya", "Ken Arok"],
+            correct: 0
+        },
+        {
+            question: "Pada tahun berapa Perang Dunia II berakhir?",
+            options: ["1939", "1942", "1945", "1948"],
             correct: 2
+        }
+    ],
+    2: [
+        {
+            question: "Siapa ilmuwan yang mengemukakan tiga hukum gerak?",
+            options: ["Galileo Galilei", "Albert Einstein", "Isaac Newton", "Charles Darwin"],
+            correct: 2
+        },
+        {
+            question: "Apa nama mineral alami yang memiliki tingkat kekerasan tertinggi?",
+            options: ["Emas", "Berlian", "Kuarsa", "Safir"],
+            correct: 1
+        },
+        {
+            question: "Apa nama teknologi yang memungkinkan perangkat bertukar data melalui koneksi nirkabel dalam jarak dekat?",
+            options: ["Wi-Fi", "NFC", "Bluetooth", "Inframerah"],
+            correct: 2
+        },
+        {
+            question: "Apa nama sistem operasi yang dikembangkan oleh Google untuk smartphone?",
+            options: ["iOS", "Android", "Windows Phone", "HarmonyOS"],
+            correct: 1
+        }
+    ],
+    3: [
+        {
+            question: "Dalam serial Squid Game, apa nomor peserta yang dikenakan oleh karakter utama Seong Gi-hun?",
+            options: ["001", "067", "456", "218"],
+            correct: 2
+        },
+        {
+            question: "Siapa sutradara film Inception dan Interstellar?",
+            options: ["Christopher Nolan", "Steven Spielberg", "Denis Villeneuve", "James Cameron"],
+            correct: 0
+        },
+        {
+            question: "Perhatikan gambar grup musik Korea Selatan berikut. Apa nama grup musik tersebut?",
+            image: "soal11.jfif",
+            options: ["BLACKPINK", "TWICE", "aespa", "ITZY"],
+            correct: 2
+        },
+        {
+            question: "Perhatikan gambar tersebut. Siapakah tokoh yang dikenal sebagai meme tertawa tersebut?",
+            image: "soal12.jpeg",
+            options: ["Jackie Chan", "Yao Ming", "Bruce Lee", "Jet Li"],
+            correct: 1
         }
     ],
     4: [
         {
-            question: "Kapan Indonesia merdeka?",
-            options: ["17 Agustus 1945", "28 Oktober 1928", "10 November 1945", "1 Juni 1945"],
+            question: "Apa nama penguin yang terkenal dengan suara khas \"Noot Noot\"?",
+            image: "soal13.jfif",
+            options: ["Pingu", "Pororo", "Tux", "Skipper"],
             correct: 0
         },
         {
-            question: "Siapa penemu bola lampu?",
-            options: ["Nikola Tesla", "Alexander Graham Bell", "Thomas Edison", "Albert Einstein"],
-            correct: 2
+            question: "Kamu sedang tidur dan tiba-tiba bel rumah berbunyi. Ada tamu membawa sarapan. Apa yang pertama kali kamu buka?",
+            options: ["Mata", "Pintu", "Mulut", "Jendela"],
+            correct: 0
         },
         {
-            question: "Siapa penulis novel 'Laskar Pelangi'?",
-            options: ["Pramoedya Ananta Toer", "Andrea Hirata", "Ayu Utami", "Eka Kurniawan"],
-            correct: 1
+            question: "Tebak film dari emoji:",
+            emoji: "🏠🎈👴",
+            options: ["Up", "Coco", "Toy Story", "Inside Out"],
+            correct: 0
         },
         {
-            question: "Siapa ilmuwan yang merumuskan teori relativitas?",
-            options: ["Isaac Newton", "Galileo Galilei", "Albert Einstein", "Stephen Hawking"],
-            correct: 2
+            question: "Tebak lagu dari emoji:",
+            emoji: "🚶‍♂️⚠️🛣️",
+            options: ["Hati-Hati di Jalan - Tulus", "Monokrom - Tulus", "Diri - Tulus", "Sewindu - Tulus"],
+            correct: 0
         }
     ]
 };
@@ -452,7 +457,26 @@ function confirmBid() {
     selectedQuestion.bid = bid;
     document.getElementById('auction-stage').classList.add('hidden');
     document.getElementById('question-stage').classList.remove('hidden');
-    document.getElementById('modal-question').textContent = selectedQuestion.text;
+    const modalQuestion = document.getElementById('modal-question');
+    modalQuestion.textContent = selectedQuestion.text;
+    modalQuestion.classList.toggle('emoji-question', Boolean(selectedQuestion.data.emoji));
+    if (selectedQuestion.data.emoji) {
+        const emoji = document.createElement('span');
+        emoji.className = 'question-emoji';
+        emoji.textContent = selectedQuestion.data.emoji;
+        modalQuestion.append(' ', emoji);
+    }
+    const questionMedia = document.getElementById('question-media');
+    const questionImage = document.getElementById('question-image');
+    if (selectedQuestion.data.image) {
+        questionImage.src = selectedQuestion.data.image;
+        questionImage.alt = `Gambar untuk soal nomor ${selectedQuestion.number}`;
+        questionMedia.classList.remove('hidden');
+    } else {
+        questionImage.removeAttribute('src');
+        questionImage.alt = '';
+        questionMedia.classList.add('hidden');
+    }
     createAnswerOptions();
 }
 
@@ -523,7 +547,7 @@ function handleOptionAnswer(isCorrect) {
 
     const answerFeedback = document.getElementById('answer-feedback');
     answerFeedback.textContent = isCorrect
-        ? 'Jawaban benar! +40 poin.'
+        ? 'Jawaban benar! +50 poin.'
         : `Jawaban salah! -${selectedQuestion.bid} poin.`;
     answerFeedback.classList.remove('hidden');
 
@@ -543,7 +567,7 @@ function handleAnswer(isCorrect) {
     const team = teams[currentTeamIndex];
 
     if (isCorrect) {
-        team.score += 40;
+        team.score += 50;
     } else {
         team.score -= selectedQuestion.bid;
     }
