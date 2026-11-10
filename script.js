@@ -309,9 +309,12 @@ function createQuestionButtons() {
 
 function updateRoundInfo() {
     const totalQuestions = 16;
-    const answeredQuestions = teams.reduce((sum, team) => sum + team.questionsAnswered, 0);
+    const answeredQuestions = Math.min(
+        totalQuestions,
+        teams.reduce((sum, team) => sum + team.questionsAnswered, 0)
+    );
     const progressTrack = document.querySelector('.round-progress-track');
-    document.getElementById('round-number').textContent = answeredQuestions + 1;
+    document.getElementById('round-number').textContent = Math.min(answeredQuestions + 1, totalQuestions);
     document.getElementById('questions-remaining').textContent = totalQuestions - answeredQuestions;
     document.getElementById('questions-completed').textContent = answeredQuestions;
     document.getElementById('round-progress-fill').style.width = `${(answeredQuestions / totalQuestions) * 100}%`;
@@ -327,12 +330,6 @@ function selectQuestion(row, index) {
     }
 
     const question = questions[row][index];
-    const eligibleTeams = teams.filter(team => team.questionsAnswered < 4);
-    if (eligibleTeams.length === 0) {
-        alert('Semua tim sudah menjawab 4 soal!');
-        return;
-    }
-
     // Store selected question
     selectedQuestion = {
         row: row,
@@ -394,11 +391,6 @@ function showTeamSelection() {
     teamSelection.innerHTML = '';
 
     teams.forEach((team, index) => {
-        // Check if team has already answered 4 questions
-        if (team.questionsAnswered >= 4) {
-            return;
-        }
-
         const btn = document.createElement('button');
         btn.className = 'team-select-btn';
         btn.textContent = team.name;
@@ -601,7 +593,7 @@ function handleAnswer(isCorrect) {
 
 
 function isGameOver() {
-    return teams.every(team => team.questionsAnswered >= 4);
+    return teams.reduce((sum, team) => sum + team.questionsAnswered, 0) >= 16;
 }
 
 function showResults() {
